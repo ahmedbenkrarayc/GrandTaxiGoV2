@@ -48,7 +48,7 @@ class RegisteredUserController extends Controller
             'lname' => $request->lname,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'photo' => $filePath,
+            'photo' => '/storage/'.$filePath,
             'phone' => $request->phone,
         ]);
 

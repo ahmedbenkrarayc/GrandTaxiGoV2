@@ -3,65 +3,118 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login Page</title>
+  <title>Login - RideEase</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100 min-h-screen flex items-center justify-center">
-  <div class="w-full min-h-screen flex">
-    <!-- Left side - Background Image -->
-    <div class="hidden lg:block w-1/2 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1572013343866-dfdb9b416810?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');"></div>
+<body class="bg-gradient-to-r from-blue-900 to-purple-900 text-white font-sans">
 
-    <!-- Right side - Full-Width Form -->
-    <div class="w-full lg:w-1/2 flex items-center justify-center p-12 bg-white">
-      <div class="w-full max-w-lg">
-        <h2 class="text-3xl font-bold mb-8 text-gray-800 text-center">Login</h2>
-        @if($errors->any())
-        <ul class="mb-4 list-disc">
-            @foreach($errors->all() as $error)
-                <li class="text-sm text-red-600 space-y-1">{{ $error }}</li>
-            @endforeach
-        </ul>
-        @endif
-
-        <form method="POST" action="/login" class="w-full">
-            @csrf
-          <div class="mb-6">
-            <label for="email" class="block text-gray-700 mb-2">Email</label>
-            <input type="email" name="email" id="email" placeholder="Jane Doe" class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500">
-          </div>
-          
-          <div class="mb-6">
-            <label for="password" class="block text-gray-700 mb-2">Password</label>
-            <input type="password" name="password" id="password" class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500">
-          </div>
-          
-          <button type="submit" class="w-full bg-purple-600 text-white py-3 rounded-md hover:bg-purple-700 transition duration-300 mb-6">
-            Log in
-          </button>
-          
-          <div class="relative flex items-center justify-center mb-6">
-            <div class="border-t border-gray-300 flex-grow"></div>
-            <div class="px-4 text-sm text-gray-500">or</div>
-            <div class="border-t border-gray-300 flex-grow"></div>
-          </div>
-          
-          <!-- Social Login Buttons -->
-          <div class="space-y-3">
-            <button type="button" class="w-full flex items-center justify-center border border-gray-300 py-2 px-4 rounded-md hover:bg-gray-50 transition duration-300">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" class="mr-2">
-                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-              </svg>
-              Github
-            </button>
-          </div>
-        </form>
-        
-        <div class="mt-6 text-center">
-          <a href="/forgot-password" class="text-purple-600 hover:underline block mb-2">Forgot your password?</a>
-          <a href="/register" class="text-purple-600 hover:underline block">Create account</a>
-        </div>
-      </div>
+  <!-- Header -->
+  <header class="p-6 bg-opacity-20 backdrop-blur-md border-b border-white/10">
+    <div class="container mx-auto flex justify-between items-center">
+      <h1 class="text-3xl font-bold text-white">Ride<span class="text-purple-400">Ease</span></h1>
+      <nav class="space-x-6">
+        <a href="#" class="hover:text-purple-300">Home</a>
+        <a href="#" class="hover:text-purple-300">Login</a>
+        <a href="#" class="hover:text-purple-300">Contact</a>
+      </nav>
     </div>
-  </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="container mx-auto px-4 py-12">
+    <div class="max-w-md mx-auto">
+      <!-- Page Title -->
+      <h2 class="text-4xl font-bold mb-8 text-center">Login</h2>
+
+      <!-- Display Errors -->
+      @if($errors->any())
+        <div class="mb-6 bg-red-500 p-4 rounded-lg text-white">
+          <ul>
+            @foreach($errors->all() as $error)
+              <li>{{ $error }}</li>
+            @endforeach
+          </ul>
+        </div>
+      @endif
+
+      <!-- Login Form -->
+      <form method="POST" action="/login" class="bg-white/10 backdrop-blur-md rounded-xl p-8 shadow-lg">
+        @csrf
+        <!-- Email Input -->
+        <div class="mb-6">
+          <label for="email" class="block text-sm font-medium text-gray-300">Email</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            class="mt-1 block w-full px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+            placeholder="Enter your email"
+            required
+          />
+        </div>
+
+        <!-- Password Input -->
+        <div class="mb-6">
+          <label for="password" class="block text-sm font-medium text-gray-300">Password</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            class="mt-1 block w-full px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+            placeholder="Enter your password"
+            required
+          />
+        </div>
+
+        <!-- Remember Me & Forgot Password -->
+        <div class="flex items-center justify-between mb-6">
+          <div class="flex items-center">
+            <input
+              type="checkbox"
+              id="rememberMe"
+              name="rememberMe"
+              class="h-4 w-4 text-purple-600 focus:ring-purple-500 border-white/20 rounded"
+            />
+            <label for="rememberMe" class="ml-2 text-sm text-gray-300">Remember me</label>
+          </div>
+          <a href="#" class="text-sm text-purple-400 hover:text-purple-300">Forgot password?</a>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="mt-8">
+          <button
+            type="submit"
+            class="w-full bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 rounded-full flex items-center justify-center space-x-2 transition-all transform hover:scale-105"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
+            </svg>
+            <span>Login</span>
+          </button>
+        </div>
+        <div class="mt-6">
+          <a
+            href="/auth/google"
+            type="button"
+            class="w-full bg-white text-gray-800 font-semibold py-3 rounded-full flex items-center justify-center space-x-2 transition-all transform hover:scale-105 shadow-md"
+          >
+            <img src="https://cdn1.iconfinder.com/data/icons/google-s-logo/150/Google_Icons-09-1024.png" alt="Google Logo" class="h-6 w-6">
+            <span>Connect with Google</span>
+          </a>
+        </div>
+        <div class="mt-6 text-center">
+          <p class="text-sm text-gray-300">Don't have an account? <a href="/register" class="text-purple-400 hover:text-purple-300">Sign up</a></p>
+        </div>
+      </form>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="p-6 bg-opacity-20 backdrop-blur-md border-t border-white/10 mt-12">
+    <div class="container mx-auto text-center">
+      <p class="text-gray-300">&copy; 2025 RideEase. All rights reserved.</p>
+    </div>
+  </footer>
+
 </body>
 </html>

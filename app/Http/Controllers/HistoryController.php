@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Reservation;
+use App\Models\Driver;
 use Carbon\Carbon;
+use App\Mail\ReservationMail;
+use Illuminate\Support\Facades\Mail;
 
 class HistoryController extends Controller
 {
@@ -13,12 +16,27 @@ class HistoryController extends Controller
     }
 
     public function acceptReservation(Request $request, $id){
-        $this->updateStatus($id, 'accepted');
+        $reservation = $this->updateStatus($id, 'accepted');
+        $reservation->price = $request->price;
+        $reservation->save();
+        $driver = Driver::find($reservation->driver_id);
+        $driver->availability = 'busy';
+        $driver->save();
+        Mail::to($reservation->passenger->email)->send(new ReservationMail($id, 'accepted'));
         return back()->with('success', 'Reservation accepted successfully !');
     }
 
+    public function finishReservation(Request $request, $id){
+        $reservation = $this->updateStatus($id, 'finished');
+        $driver = Driver::find($reservation->driver_id);
+        $driver->availability = 'available';
+        $driver->save();
+        return back()->with('success', 'Reservation finished successfully !');
+    }
+
     public function rejectReservation(Request $request, $id){
-        $this->updateStatus($id, 'rejected');
+        $reservation = $this->updateStatus($id, 'rejected');
+        Mail::to($reservation->passenger->email)->send(new ReservationMail($id, 'rejected'));
         return back()->with('success', 'Reservation rejected successfully !');
     }
 
@@ -34,14 +52,14 @@ class HistoryController extends Controller
     }
 
     private function updateStatus($id, $status){
-        $reservation = Reservation::find($id);
+        $reservation = Reservation::with('passenger')->find($id);
         if($reservation){
             $reservation->status = $status;
             $reservation->save();
-            return true;
+            return $reservation;
         }
 
-        return false;
+        return null;
     }
 
     public function passengerHistory(){

@@ -3,165 +3,167 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Détails de Réservation | GrandTaxiGo</title>
+    <title>Reservation details | RideEase</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    @vite(['resources/css/app.css'])
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        #map {
+            height: 500px;
+            width: 100%;
+            border-radius: 12px;
+        }
+    </style>
 </head>
-<body class="bg-gray-100">
-    <div class="min-h-screen">
-        <!-- Barre de navigation -->
-        <nav class="bg-white shadow-lg">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="flex justify-between h-16">
-                    <div class="flex items-center">
-                        <h1 class="text-2xl font-bold text-indigo-600">WSSlni</h1>
+<body class="bg-gradient-to-r from-blue-900 to-purple-900 text-white font-sans">
+    <!-- Header -->
+    <header class="p-6 bg-opacity-20 backdrop-blur-md border-b border-white/10">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-3xl font-bold text-white">Grand<span class="text-purple-400">TaxiGo</span></h1>
+            <nav class="space-x-6">
+            <a href="/" class="hover:text-purple-300">Find a driver</a>
+            <a href="/passenger/history" class="hover:text-purple-300">My reservations</a>
+            <a href="/passenger/ratings" class="hover:text-purple-300">Reviews</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-12">
+        <div class="max-w-4xl mx-auto">
+            <!-- Reservation Title -->
+            <h2 class="text-4xl font-bold mb-8 text-center">Reservation details</h2>
+
+            <!-- Driver Details -->
+            <div class="bg-white/10 backdrop-blur-md rounded-xl p-6 shadow-lg mb-8">
+                <div class="flex items-center space-x-4 mb-4">
+                    <img src="{{ asset($reservation->driver->user->photo) }}" alt="Driver" class="w-16 h-16 rounded-full">
+                    <div>
+                        <h3 class="text-2xl font-semibold">{{ $reservation->driver->user->fname.' '.$reservation->driver->user->lname }}</h3>
+                        <p class="text-sm text-gray-300">4.8 ★</p>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-2 text-sm text-gray-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
+                    </svg>
+                    <span>{{ $reservation->driver->user->phone }}</span>
+                </div>
+                <div class="mt-4">
+                    <a href="tel:{{ $reservation->driver->user->phone }}" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2 rounded-full flex items-center justify-center space-x-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
+                        </svg>
+                        <span>Appeler le chauffeur</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Trip Details -->
+            <div class="bg-white/10 backdrop-blur-md rounded-xl p-6 shadow-lg mb-8">
+                <h3 class="text-2xl font-semibold mb-4">Détails du Trajet</h3>
+                <div class="space-y-4">
+                    <div class="flex items-center space-x-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+                        </svg>
+                        <div>
+                            <p class="text-gray-300">De</p>
+                            <p class="text-lg font-semibold">{{ $reservation->trajet->startPlace }}</p>
+                        </div>
                     </div>
                     <div class="flex items-center space-x-4">
-                        <a href="/profile" class="text-indigo-600 hover:text-indigo-800 transition">Mon Profil</a>
-                        <a href="/reservations" class="text-indigo-600 hover:text-indigo-800 transition">Mes Réservations</a>
-                        <a href="/aide" class="text-indigo-600 hover:text-indigo-800 transition">Aide</a>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a2 2 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                        <div>
+                            <p class="text-gray-300">À</p>
+                            <p class="text-lg font-semibold">{{ $reservation->trajet->destination }}</p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </nav>
 
-        <main class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-            <div class="mb-6">
-                <h2 class="text-2xl font-bold text-gray-800">Détails de la Réservation</h2>
+            <!-- Map Section -->
+            <div class="bg-white/10 backdrop-blur-md rounded-xl p-6 shadow-lg">
+                <h3 class="text-2xl font-semibold mb-4">Localisation en Temps Réel du Chauffeur</h3>
+                <div id="map"></div>
             </div>
+        </div>
+    </main>
 
-            <div class="flex flex-col lg:flex-row gap-6">
-                <div class="lg:w-1/2 space-y-6">
-                    <div class="bg-white rounded-lg shadow-md p-6">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-4 border-b pb-2">Informations du Chauffeur</h3>
-                        <div class="flex items-center space-x-4 mb-4">
-                            <img src="{{ asset('/storage/'.$reservation->driver->user->photo) }}" alt="Jean Dupont" class="w-20 h-20 rounded-full object-cover border-2 border-indigo-600">
-                            <div>
-                                <h4 class="text-xl font-bold">{{ $reservation->driver->user->fname.' '.$reservation->driver->user->lname }}</h4>
-                            </div>
-                        </div>
-                        <div class="space-y-2 pt-3">
-                            <p class="text-gray-700"><i class="fas fa-phone-alt mr-2 text-indigo-600"></i>{{ $reservation->driver->user->phone }}</p>
-                            <p class="text-gray-700"><i class="fas fa-envelope mr-2 text-indigo-600"></i>{{ $reservation->driver->user->email }}</p>
-                        </div>
-                    </div>
-                    
-                    <!-- Carte des détails de la réservation -->
-                    <div class="bg-white rounded-lg shadow-md p-6">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-4 border-b pb-2">Détails du Trajet</h3>
-                        
-                        <div class="space-y-4">
-                            <!-- Status de la réservation -->
-                            <div class="bg-green-50 p-3 rounded-lg border border-green-200 flex items-center">
-                                <div class="bg-green-500 p-2 rounded-full mr-3">
-                                    <i class="fas fa-check text-white"></i>
-                                </div>
-                                <div>
-                                    <p class="font-medium text-green-800">Réservation Confirmée</p>
-                                </div>
-                            </div>
-                            
-                            <!-- Trajet -->
-                            <div class="flex">
-                                <div class="mr-4 relative">
-                                    <div class="w-3 h-3 rounded-full bg-indigo-600"></div>
-                                    <div class="absolute top-3 bottom-3 left-1.5 w-0.5 bg-gray-300"></div>
-                                    <div class="w-3 h-3 rounded-full bg-indigo-600 absolute bottom-0"></div>
-                                </div>
-                                <div class="space-y-6 flex-1">
-                                    <div>
-                                        <p class="font-medium">Point de départ</p>
-                                        <p class="text-gray-700">{{ $reservation->trajet->startPlace }}</p>
-                                        <p class="text-sm text-gray-500">{{ $reservation->updated_at }}</p>
-                                    </div>
-                                    <div>
-                                        <p class="font-medium">Destination</p>
-                                        <p class="text-gray-700">{{ $reservation->trajet->destination }}</p>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <!-- Actions -->
-                            <div class="border-t pt-4 mt-4 flex justify-between">
-                                <a href="tel:{{ $reservation->driver->user->phone }}" class="inline-flex items-center text-indigo-600 hover:text-indigo-800">
-                                    <i class="fas fa-phone-alt mr-2"></i>
-                                    Appeler le chauffeur
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Colonne de droite: Carte Google Maps (vide pour l'instant) -->
-                <div class="lg:w-1/2">
-                    <div class="bg-white rounded-lg shadow-md h-full min-h-[600px] flex items-center justify-center">
-                        <!-- <div class="text-center p-6">
-                            <div class="text-gray-400 mb-3">
-                                <i class="fas fa-map-marker-alt text-4xl"></i>
-                            </div>
-                            <h3 class="text-lg font-medium text-gray-700">Emplacement du Chauffeur</h3>
-                            <p class="text-gray-500 mt-2">La carte de localisation en temps réel sera affichée ici</p>
-                            <p class="text-sm text-gray-400 mt-4">Intégration Google Maps API à venir</p>
-                        </div> -->
-                        <div id="map" class="w-full h-[500px]"></div>
-                    </div>
-                </div>
-            </div>
-        </main>
-    </div>
+    <!-- Footer -->
+    <footer class="p-6 bg-opacity-20 backdrop-blur-md border-t border-white/10 mt-12">
+        <div class="container mx-auto text-center">
+            <p class="text-gray-300">&copy; 2023 GrandTaxiGo. Tous droits réservés.</p>
+        </div>
+    </footer>
+
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDpk2gFMPPC-RIfuepXoWJTMmyEpofTgfo&callback=initMap"></script>
     <script>
-    let map;
-    let driverMarker;
-    const driverid = {{ $reservation->driver->id }};
+        const map = L.map('map').setView([40.7128, -74.0060], 13);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
 
-    function initMap() {
-        const clientLocation = { lat: {{ $reservation->trajet->latitude }}, lng: {{ $reservation->trajet->longtitude }} }; 
-
-        map = new google.maps.Map(document.getElementById("map"), {
-            zoom: 15,
-            center: clientLocation,
+        const customIcon = L.icon({
+            iconUrl: 'https://cdn-icons-png.flaticon.com/128/2776/2776067.png',
+            iconSize: [40, 40],
+            iconAnchor: [20, 40]
         });
 
-        new google.maps.Marker({
-            position: clientLocation,
-            map: map,
-            title: "Client Location",
-            icon: "https://maps.google.com/mapfiles/ms/icons/blue-dot.png"
-        });
+        let personY; // Will store the user's location dynamically
+        let personX = [{{ $reservation->driver->latitude }}, {{ $reservation->driver->longitude }}];
 
-        const driverLocation = { lat: 34.0522, lng: -118.2537 };
-        driverMarker = new google.maps.Marker({
-            position: driverLocation,
-            map: map,
-            title: "Driver",
-            icon: "https://maps.google.com/mapfiles/ms/icons/red-dot.png"
-        });
+        function initializeMap(userLocation) {
+            personY = userLocation; // Set personY dynamically
 
-        map.setCenter(clientLocation);
+            const markerY = L.marker(personY, { icon: customIcon }).addTo(map).bindPopup("Person Y (You)");
+            const markerX = L.marker(personX, { icon: customIcon }).addTo(map).bindPopup("Person X (Driver)");
 
-        trackDriver();
-    }
+            let routeControl = L.Routing.control({
+                waypoints: [
+                    L.latLng(personX),
+                    L.latLng(personY)
+                ],
+                routeWhileDragging: true,
+                createMarker: () => null,
+            }).addTo(map);
 
-    function trackDriver() {
-        setInterval(() => {
-            fetch(`/driver/location/${driverid}`)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.latitude && data.longitude) {
-                        const driverPosition = new google.maps.LatLng(data.latitude, data.longitude);
+            window.Echo.channel('location')
+            .listen('.driver.location.updated', (data) => {
+                personX = [data.lat, data.long];
+                markerX.setLatLng(personX);
+                routeControl.setWaypoints([
+                    L.latLng(personX),
+                    L.latLng(personY)
+                ]);
+                map.setView(personX, 13);
+            });
 
-                        driverMarker.setPosition(driverPosition);
-                        map.setCenter(driverPosition);
-                    } else {
-                        console.error('Invalid data received for driver location:', data);
-                    }
-                })
-                .catch(error => console.error("Error fetching driver location:", error));
-        }, 5000);
-    }
-</script>
+            map.setView(personY, 13);
+        }
 
+        // Get user location
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    const userCoords = [position.coords.latitude, position.coords.longitude];
+                    initializeMap(userCoords);
+                },
+                (error) => {
+                    console.error("Error getting location:", error);
+                    initializeMap([32.2254721, -9.2482839]); // Default fallback
+                }
+            );
+        } else {
+            console.error("Geolocation is not supported by this browser.");
+            initializeMap([32.2254721, -9.2482839]); // Default fallback
+        }
+    </script>
 </body>
 </html>

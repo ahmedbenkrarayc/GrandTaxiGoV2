@@ -1,4 +1,5 @@
 @extends('layouts.master')
+@section('title', 'Home')
 @section('content')
 <main class="container mx-auto px-4 py-12">
   <div class="text-center mb-12">
@@ -66,7 +67,7 @@
                     <div>
                         <h3 class="text-xl font-semibold">${driver.user.fname} ${driver.user.lname}</h3>
                         <p class="text-sm text-gray-300">${driver.user.email}</p>
-                        <p class="text-sm text-gray-300">${driver.user.phone}</p>
+                        <p class="text-sm text-gray-300">${driver.user.phone ?? ''}</p>
                     </div>
                 </div>
                 <div class="flex items-center space-x-2 text-sm text-gray-300">
@@ -77,7 +78,7 @@
                     <span>${driver.distance.toFixed(2)} km away</span>
                 </div>
                 <div class="mt-4">
-                    <button class="w-full bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2 rounded-full">Réserver</button>
+                    <a href="/reservation/create/${driver.id}" class="w-full text-center block bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2 rounded-full">Réserver</a>
                 </div>
             `;
             container.appendChild(card);

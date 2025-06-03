@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Disponibilité | GrandTaxiGo</title>
-    @vite(['resources/css/app.css'])
+    <title>Disponibilité - RideEase</title>
+    @vite(['resources/css/app.css', 'resources/js/livelocation.js'])
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         /* Base styles */
@@ -201,10 +201,9 @@
                         <h1 class="text-2xl font-bold text-indigo-600">GrandTaxiGo</h1>
                     </div>
                     <div class="nav-links">
-                        <a href="/driver/profile" class="text-indigo-600 hover:text-indigo-800 transition">Mon Profil</a>
-                        <a href="/driver/courses" class="text-indigo-600 hover:text-indigo-800 transition">Mes Courses</a>
-                        <a href="/driver/disponibilite" class="text-indigo-600 font-medium underline hover:text-indigo-800 transition">Disponibilité</a>
-                        <a href="/driver/statistiques" class="text-indigo-600 hover:text-indigo-800 transition">Statistiques</a>
+                        <a href="/driver/history" class="text-indigo-600 hover:text-indigo-800 transition">Reservations</a>
+                        <a href="/driver/status" class="text-indigo-600 hover:text-indigo-800 transition">Status</a>
+                        <a href="/driver/ratings" class="text-indigo-600 hover:text-indigo-800 transition">Reviews</a>
                     </div>
                 </div>
             </div>
@@ -271,23 +270,18 @@
             const statusOptions = document.querySelectorAll('.status-option');
             const radioInputs = document.querySelectorAll('.status-radio');
 
-            // Find the checked radio button and add the 'selected' class to its parent
             radioInputs.forEach(input => {
                 if (input.checked) {
                     input.closest('.status-option').classList.add('selected');
                 }
             });
 
-            // Handle click on status options
             statusOptions.forEach(option => {
                 option.addEventListener('click', function() {
-                    // Remove selected class from all options
                     statusOptions.forEach(opt => opt.classList.remove('selected'));
 
-                    // Add selected class to clicked option
                     this.classList.add('selected');
 
-                    // Check the radio input within this option
                     const radio = this.querySelector('.status-radio');
                     radio.checked = true;
                 });

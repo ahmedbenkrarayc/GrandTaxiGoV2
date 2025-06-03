@@ -20,6 +20,10 @@ return [
         'passenger' => [
             'users' => 'c,r,u,d',
             'profile' => 'r,u',
+        ],
+        'admin' => [
+            'users' => 'c,r,u,d',
+            'profile' => 'r,u',
         ]
     ],
 

@@ -7,12 +7,16 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "bacon/bacon-qr-code": "^2.0",
+        "chillerlan/php-qrcode": "^5.0",
+        "endroid/qr-code": "^5.0",
         "laravel/framework": "^11.31",
         "laravel/reverb": "^1.0",
         "laravel/socialite": "^5.18",
         "laravel/tinker": "^2.9",
         "predis/predis": "2.0",
         "santigarcor/laratrust": "^8.3",
+        "simplesoftwareio/simple-qrcode": "^4.2",
         "stripe/stripe-php": "^16.6"
     },
     "require-dev": {

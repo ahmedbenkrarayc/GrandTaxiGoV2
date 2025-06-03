@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Driver;
+use App\Events\DriverLocationUpdated;
 
 class LocationController extends Controller
 {
@@ -14,6 +15,8 @@ class LocationController extends Controller
         $driver->latitude = $request->latitude;
         $driver->save();
 
+        event(new DriverLocationUpdated());
+        
         return response()->json([
             'success' => true
         ]);

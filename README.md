@@ -1,66 +1,118 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# GrandTaxiGo
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![PHP](https://img.shields.io/badge/PHP-8.3-blue)](https://www.php.net/)
+[![Laravel](https://img.shields.io/badge/Laravel-11-red)](https://laravel.com/)
 
-## About Laravel
+GrandTaxiGo is an intercity taxi booking platform connecting passengers and drivers. Passengers can reserve rides, view history, and leave reviews, while drivers manage availability and accept bookings. The platform includes admin tools, real-time notifications, secure payments, and interactive maps for a seamless experience.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Features
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### User Authentication
 
-## Learning Laravel
+* Register with personal information and mandatory profile photo
+* Login via credentials or **Google/Facebook** (Laravel Socialite)
+* Manage profile and personal data
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### Booking & Trip Management
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+* Passengers book rides with pickup and drop-off details
+* Cancel bookings before departure
+* View ride history
+* Filter drivers by location and availability
+* Drivers accept or decline bookings
+* Automated cancellation of unconfirmed bookings
+* Intelligent driver availability management
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Reviews & Ratings
 
-## Laravel Sponsors
+* Passengers rate and comment on drivers
+* Drivers rate and comment on passengers
+* Ratings displayed on user profiles
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### Payments
 
-### Premium Partners
+* Secure online payments via **Stripe**
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+### Admin Dashboard
 
-## Contributing
+* Manage users (drivers and passengers)
+* Track trips and bookings with statistics (completed, canceled rides, revenue)
+* Supervise driver availability
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### Real-Time Features
 
-## Code of Conduct
+* Notifications on booking updates
+* QR code for confirmed rides
+* Real-time updates powered by **Laravel Reverb**
+* Instant messaging between drivers and passengers
+* Interactive map with live driver locations (Leaflet.js)
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### Security & Performance
 
-## Security Vulnerabilities
+* PostgreSQL database for robustness and scalability
+* Strict data validation to ensure integrity
+* Caching for better performance
+* SEO-friendly URLs using slugs
+* Flash messages for enhanced UX
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+---
+
+## Installation
+
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/yourusername/grandtaxigo.git
+   ```
+2. Install dependencies:
+
+   ```bash
+   composer install
+   npm install
+   npm run build
+   ```
+3. Copy `.env.example` to `.env` and configure your environment variables.
+4. Generate application key:
+
+   ```bash
+   php artisan key:generate
+   ```
+5. Run migrations and seed the database:
+
+   ```bash
+   php artisan migrate --seed
+   ```
+6. Start the local server:
+
+   ```bash
+   php artisan serve
+   ```
+
+---
+
+## Usage
+
+* Access the platform at `http://localhost:8000`.
+* Register as a passenger or driver.
+* Admins can log in to the dashboard to manage users and trips.
+* Explore interactive maps, book rides, and manage notifications in real time.
+
+---
+
+## Technologies Used
+
+* **Backend:** Laravel PHP Framework (v11)
+* **Frontend:** Blade templates, JavaScript, Leaflet.js, Tailwindcss
+* **Database:** PostgreSQL
+* **Real-Time:** Laravel Reverb
+* **Payments:** Stripe
+* **Authentication:** Laravel Socialite (Google/Facebook)
+
+---
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.

@@ -65,7 +65,7 @@ GrandTaxiGo is an intercity taxi booking platform connecting passengers and driv
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/yourusername/grandtaxigo.git
+   git clone https://github.com/ahmedbenkrarayc/GrandTaxiGoV2.git
    ```
 2. Install dependencies:
 
